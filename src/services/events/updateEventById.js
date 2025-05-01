@@ -1,36 +1,30 @@
-import eventData from "../../data/events.json" assert { type: "json" };
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-const updateEventById = (id, updatedEvent) => {
-  const eventIndex = eventData.events.findIndex((event) => event.id === id);
 
-  if (eventIndex === -1) {
-    return null;
-  }
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-  const {
-    title,
-    description,
-    location,
-    image,
-    startTime,
-    endTime,
-    createdBy,
-    categoryIds,
-  } = updatedEvent;
+const eventsData = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../data/events.json'), 'utf-8'));
 
-  eventData.events[eventIndex] = {
-    ...eventData.events[eventIndex],
-    title: title || eventData.events[eventIndex].title,
-    description: description || eventData.events[eventIndex].description,
-    location: location || eventData.events[eventIndex].location,
-    image: image || eventData.events[eventIndex].image,
-    startTime: startTime || eventData.events[eventIndex].startTime,
-    endTime: endTime || eventData.events[eventIndex].endTime,
-    createdBy: createdBy || eventData.events[eventIndex].createdBy,
-    categoryIds: categoryIds || eventData.events[eventIndex].categoryIds,
-  };
+const updateEventById = (id, title, description, image, catergoryIds, location, startTime, endTime) => {
+    const event = eventsData.events.find((e) => e.id === id);
+    if (event === -1) {
+        throw new Error(`Event with id ${id} not found`);
+    }
 
-  return eventData.events[eventIndex];
-};
+    event.title = title ?? event.title;
+    event.description = description ?? event.description;
+    event.image = image ?? event.image; 
+    event.catergoryIds = catergoryIds ?? event.catergoryIds;
+    event.location = location ?? event.location;          
+    event.startTime = startTime ?? event.startTime;
+    event.endTime = endTime ?? event.endTime;
+
+    fs.writeFileSync(path.resolve(__dirname, '../../data/events.json'), JSON.stringify(eventsData, null, 2));
+
+    return event;
+}
 
 export default updateEventById;

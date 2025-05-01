@@ -1,18 +1,27 @@
-import { v4 as uuidv4 } from "uuid";
-import userData from "../../data/users.json" assert { type: "json" };
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { v4 as uuid } from 'uuid';
 
-const createUser = (username, name, password, image) => {
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const userData = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../data/users.json'), 'utf-8'));
+
+const createUser = (name, email, password) => {
   const newUser = {
-    id: uuidv4(),
+    id: uuid(),
     name,
-    username,
+    email,
     password,
-    image,
   };
 
   userData.users.push(newUser);
 
-  return newUser;
-};
+  fs.writeFileSync(path.resolve(__dirname, '../../data/users.json'), JSON.stringify(userData, null, 2));
 
+  return newUser;
+}
 export default createUser;
+
+

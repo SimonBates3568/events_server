@@ -1,24 +1,36 @@
-import userData from "../../data/users.json" assert { type: "json" };
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-const updateUserById = (id, updatedUser) => {
-  const userIndex = userData.users.findIndex((user) => user.id === id);
 
-  if (userIndex === -1) {
-    return null;
-  }
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-  // We make sure that the ID and other, unknown properties are not inserted
-  const { username, name, password, image } = updatedUser;
+const usersData = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../data/users.json'), 'utf-8'));
 
-  userData.users[userIndex] = {
-    ...userData.users[userIndex],
-    username: username || userData.users[userIndex].username,
-    name: name || userData.users[userIndex].name,
-    password: password || userData.users[userIndex].password,
-    image: image || userData.users[userIndex].image,
-  };
+if (!usersData || !Array.isArray(usersData.users)) {
+    throw new Error('Invalid users data structure in users.json');
+}
 
-  return userData.users[userIndex];
-};
+const updateUserById = (id, name, username, email, password, image) => {
+    const user = usersData.users.find(user => user.id === id);
+    if (!user) {
+        throw new Error(`User with id ${id} not found`);
+    }
+    user.username = username ?? user.username;
+    user.name = name ?? user.name;
+    user.email = email ?? user.email;     
+    user.password = password ?? user.password;
+    user.image = image ?? user.image;
+
+
+    fs.writeFileSync(path.resolve(__dirname, '../../data/users.json'), JSON.stringify(usersData, null, 2));
+    return user;    
+}
 
 export default updateUserById;
+
+
+
+
+

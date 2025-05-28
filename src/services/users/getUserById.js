@@ -1,14 +1,13 @@
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import { PrismaClient } from "@prisma/client";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const usersData = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../data/users.json'), 'utf-8'));
-
-const getUserById = (id) => {
-    return usersData.users.find(user => user.id === id)
-};
+const getUserById = async (id) => {
+  const prisma = new PrismaClient();
+  const user =  await prisma.user.findUnique({
+    where: { id },
+  })
+  console.log("getUserById", user);
+  return user;
+  
+}
 
 export default getUserById;

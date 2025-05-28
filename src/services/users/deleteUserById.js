@@ -1,21 +1,15 @@
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import { PrismaClient } from "@prisma/client";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const bookData = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../data/users.json'), 'utf-8'));
-
-const deleteUserById = (id) => {
-    const userIndex = bookData.users.findIndex(user => user.id === id);
-
-    if (userIndex === -1) {
-        throw new Error(`User with id ${id} not found`);
-    };
-
-    bookData.users.splice(userIndex, 1);
-    fs.writeFileSync(path.resolve(__dirname, '../../data/users.json'), JSON.stringify(bookData, null, 2));
-    return { message: `User with id ${id} deleted successfully` };
+const deleteUserById = async (id) => {
+ const prisma = new PrismaClient();
+ const deleteUserById = await prisma.user.delete({
+   where: { id },
+ });
+ if (!deleteUserById || deleteUserById.count === 0) {
+   throw new NotFoundError("User", id);
+ }
+ console.log(`User with id ${id} successfully deleted`);
+ return deleteUserById;
 };
+
 export default deleteUserById;

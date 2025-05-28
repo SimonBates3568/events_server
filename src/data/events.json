@@ -1,6 +1,32 @@
 {
   "events": [
     {
+      "id": "1",
+      "createdBy": "1",
+      "title": "Trampoline party",
+      "description": "Bounce around with your friends",
+      "image": "https://i.pinimg.com/736x/3d/2f/af/3d2faf4e3188d34a9fcdc00df59e77b0.jpg",
+      "categoryIds": [
+        "2"
+      ],
+      "location": "My back yard",
+      "startTime": "2023-03-10T18:00:00.000Z",
+      "endTime": "2023-03-10T19:00:00.000Z"
+    },
+    {
+      "id": "2",
+      "createdBy": "1",
+      "title": "Laser Tag mania",
+      "description": "Let's play laser tag!",
+      "image": "https://www.ctvnews.ca/polopoly_fs/1.5118552.1600965663!/httpImage/image.jpg_gen/derivatives/landscape_1020/image.jpg",
+      "categoryIds": [
+        "2"
+      ],
+      "location": "Blinded by the Lights Laser Tag, 15 Main St.",
+      "startTime": "2023-04-06T18:46:00.000Z",
+      "endTime": "2023-04-06T19:46:00.000Z"
+    },
+    {
       "id": "3",
       "createdBy": "2",
       "title": "Badminton game",
@@ -26,26 +52,6 @@
       "location": "Shavasana Yoga School",
       "startTime": "2023-03-09T06:00:00.000Z",
       "endTime": "2023-03-09T07:00:00.000Z"
-    },
-    {
-      "id": "f324a47a-395f-4a5c-92f3-1218ca3634f6",
-      "createdBy": "",
-      "title": "swimming",
-      "description": "swim around with your friends",
-      "image": "https://i.pinimg.com/736x/3d/2f/af/3d2faf4e3188d34a9fcdc00df59e77b0.jpg",
-      "location": "swimming pool",
-      "startTime": "2023-03-10T18:00:00.000Z",
-      "endTime": "2023-03-10T19:00:00.000Z"
-    },
-    {
-      "id": "6eb8af50-60f6-4013-b05f-83ebd137aaf2",
-      "createdBy": "",
-      "title": "sing",
-      "description": "swim ar friends",
-      "image": "https://i.pinimg.com/736x/3d/2f/af/3d2faf4e3188d34a9fcdc00df59e77b0.jpg",
-      "location": "swimmil",
-      "startTime": "2023-03-10T18:00:00.000Z",
-      "endTime": "2023-03-10T19:00:00.000Z"
     }
   ]
 }

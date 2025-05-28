@@ -1,5 +1,5 @@
 import { Router } from "express";
-import userData from "../data/users.json" assert { type: "json" };
+import userData from "../data/users.json" with { type: "json" };
 import jwt from "jsonwebtoken";
 
 const router = Router();

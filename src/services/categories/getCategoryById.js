@@ -1,7 +1,13 @@
-import categoriesData from "../../data/categories.json" assert { type: "json" };
+import { PrismaClient } from '@prisma/client';
 
-const getCategoryById = (id) => {
-  return categoriesData.categories.find((category) => category.id === id);
+const getCategoryById = async (id) => {
+const prisma = new PrismaClient();
+const category = await prisma.category.findUnique({
+  where: {id}
+})
+console.log("getCategoryById", category);
+
+  return category;
 };
 
 export default getCategoryById;

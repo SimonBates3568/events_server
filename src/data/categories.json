@@ -1,16 +1,16 @@
 {
   "categories": [
     {
+      "name": "sports",
+      "id": "1"
+    },
+    {
+      "name": "games",
+      "id": "2"
+    },
+    {
       "name": "relaxation",
       "id": "3"
-    },
-    {
-      "id": "9529882c-88e6-40da-afc7-0fbe4a44e7e4",
-      "name": "bob"
-    },
-    {
-      "id": "5618dc16-1ac7-4598-b76d-cb4b4750440a",
-      "name": "bo"
     }
   ]
 }

@@ -1,15 +1,17 @@
-import eventData from "../../data/events.json" assert { type: "json" };
+import { PrismaClient } from "@prisma/client";
 
 const deleteEventById = (id) => {
-  const eventIndex = eventData.events.findIndex((event) => event.id === id);
+  const prisma = new PrismaClient();
 
-  if (eventIndex === -1) {
-    return null;
+  const deleteEventById = prisma.event.delete({
+    where: { id },
+  });
+
+  if (!deleteEventById || deleteEventById.count === 0) {
+    throw new Error(`Event with id ${id} not found`);
   }
-
-  const deletedevent = eventData.events.splice(eventIndex, 1);
-
-  return deletedevent;
+  return deleteEventById;
 };
+
 
 export default deleteEventById;

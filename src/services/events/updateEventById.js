@@ -1,30 +1,29 @@
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import { PrismaClient } from "@prisma/client";
 
+const updateEventById = async (id, updatedEvent) => {
+  const prisma = new PrismaClient();
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+  const { categoryIds, createdBy, ...rest } = updatedEvent;
 
-const eventsData = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../data/events.json'), 'utf-8'));
+  // Here we can't use updateMany() because we need to update the createdBy and categories fields if it is passed
+  const event = await prisma.event.update({
+    where: { id },
+    data: {
+      ...rest,
+      createdBy: createdBy
+        ? {
+            connect: { id: createdBy },
+          }
+        : undefined,
+      categories: categoryIds
+        ? {
+            set: categoryIds.map((id) => ({ id })),
+          }
+        : undefined,
+    },
+  });
 
-const updateEventById = (id, title, description, image, catergoryIds, location, startTime, endTime) => {
-    const event = eventsData.events.find((e) => e.id === id);
-    if (event === -1) {
-        throw new Error(`Event with id ${id} not found`);
-    }
-
-    event.title = title ?? event.title;
-    event.description = description ?? event.description;
-    event.image = image ?? event.image; 
-    event.catergoryIds = catergoryIds ?? event.catergoryIds;
-    event.location = location ?? event.location;          
-    event.startTime = startTime ?? event.startTime;
-    event.endTime = endTime ?? event.endTime;
-
-    fs.writeFileSync(path.resolve(__dirname, '../../data/events.json'), JSON.stringify(eventsData, null, 2));
-
-    return event;
-}
+  return event;
+};
 
 export default updateEventById;
